@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Search from './Components/Search.jsx';
 import Events from './Components/Events.jsx';
+import axios from 'axios';
 
 class App extends React.Component {
   constructor(props) {
@@ -24,6 +25,14 @@ class App extends React.Component {
 
   handleSearchSubmit(e) {
     console.log('You tried to search for:', this.state.search)
+    axios.get(`http://localhost:3000/events?q=${this.state.search}`)
+      .then(result => {
+        console.log(result.data);
+        this.setState({events: result.data})
+      })
+      .catch(() => {
+        console.log('Sorry, you cannot even make a local server work');
+      })
   }
 
   render() {

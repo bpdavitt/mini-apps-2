@@ -11,8 +11,8 @@ class Events extends React.Component {
   render () {
     return (
       <>
-        {this.displayed.map(event => {
-          return <Event event={event}></Event>
+        {this.displayed.map((event, i) => {
+          return <Event event={event} key={'event:' + i}></Event>
         })}
       </>
     )
