@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom';
+import Search from './Components/Search.jsx'
 
 class App extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class App extends React.Component {
     return (
       <>
         <div>Application successfully mounted</div>
+        <Search></Search>
       </>
     )
   }
