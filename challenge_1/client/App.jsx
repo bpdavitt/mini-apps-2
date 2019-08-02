@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Search from './Components/Search.jsx'
+import Search from './Components/Search.jsx';
+import Events from './Components/Events.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      search: ''
+      search: '',
+      events: []
     }
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleSearchSubmit = this.handleSearchSubmit.bind(this);
@@ -32,6 +34,8 @@ class App extends React.Component {
           handleSearchChange={this.handleSearchChange}
           handleSearchSubmit={this.handleSearchSubmit}>
         </Search>
+        {this.state.events.length === 0 ? null :
+          <Events events={this.state.events}></Events>}
       </>
     )
   }

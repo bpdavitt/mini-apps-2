@@ -19,6 +19,7 @@
     "babel-loader": "^8.0.6",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-paginate": "^6.3.0",
     "webpack": "^4.39.1",
     "webpack-cli": "^3.3.6"
   }
