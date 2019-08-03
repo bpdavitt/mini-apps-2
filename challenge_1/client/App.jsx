@@ -25,7 +25,7 @@ class App extends React.Component {
 
   handleSearchSubmit(e) {
     console.log('You tried to search for:', this.state.search)
-    axios.get(`http://localhost:3000/events?q=${this.state.search}`)
+    axios.get(`http://localhost:3000/events?q=${this.state.search}&_page=1`)
       .then(result => {
         console.log(result.data);
         this.setState({events: result.data})
@@ -44,7 +44,7 @@ class App extends React.Component {
           handleSearchSubmit={this.handleSearchSubmit}>
         </Search>
         {this.state.events.length === 0 ? null :
-          <Events events={this.state.events}></Events>}
+          <Events events={this.state.events} search={this.state.search}></Events>}
       </>
     )
   }
