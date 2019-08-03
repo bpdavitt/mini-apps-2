@@ -30,7 +30,7 @@ class Events extends React.Component {
           nextLabel={'next'}
           breakLabel={'...'}
           breakClassName={'break-me'}
-          pageCount={this.perPage}
+          pageCount={Math.ceil(this.props.events.length/this.perPage)}
           marginPagesDisplayed={2}
           pageRangeDisplayed={5}
           onPageChange={this.handlePageClick}
