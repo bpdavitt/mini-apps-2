@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import View from './components/View.jsx'
 
 class App extends React.Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class App extends React.Component {
     return (
       <>
         <div>Crypto App Mounted and Ready for Action</div>
+        <View/>
       </>
     )
   }
