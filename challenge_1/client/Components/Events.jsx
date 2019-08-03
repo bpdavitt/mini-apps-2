@@ -29,7 +29,7 @@ class Events extends React.Component {
           previousLabel={'previous'}
           nextLabel={'next'}
           breakLabel={'...'}
-          breakClassName={'break-me'}
+          breakClassName='react-paginate'
           pageCount={Math.ceil(this.props.events.length/this.perPage)}
           marginPagesDisplayed={2}
           pageRangeDisplayed={5}
@@ -37,6 +37,10 @@ class Events extends React.Component {
           containerClassName={'pagination'}
           subContainerClassName={'pages pagination'}
           activeClassName={'active'}
+          pageClassName='react-paginate'
+          previousClassName = 'react-paginate'
+          nextClassName = 'react-paginate'
+          activeClassName = 'paginate-selected'
         />
       </div>
     )

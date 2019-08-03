@@ -2,12 +2,13 @@
   border: 1px solid black;
 }
 
-#react-paginate ul {
+.react-paginate {
   display: inline-block;
   padding-left: 15px;
   padding-right: 15px;
 }
 
-#react-paginate li {
-  display: inline-block;
+.paginate-selected {
+  font-weight: bold;
+  border: 2px solid black;
 }
