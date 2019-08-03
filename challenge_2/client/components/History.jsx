@@ -20,6 +20,9 @@ const History = (props) => {
       scales: {
         xAxes: [{
           type: 'time',
+          time: {
+            unit: 'day'
+          },
           distribution: 'series',
           ticks: {
             source: 'data',
@@ -37,7 +40,7 @@ const History = (props) => {
         intersect: false,
         mode: 'index',
         callbacks: {
-          label: function(tooltipItem, myData) {
+          label: function (tooltipItem, myData) {
             var label = myData.datasets[tooltipItem.datasetIndex].label || '';
             if (label) {
               label += ': ';
@@ -49,8 +52,11 @@ const History = (props) => {
       }
     }
   };
-  if(props.data.length !== 0) {
-    let lineChart = new Chart(document.getElementById('myChart'), cfg)
+  var ctx = document.getElementById('myChart').getContext('2d');
+  ctx.canvas.width = 1000;
+  ctx.canvas.height = 300;
+  if (props.data.length !== 0) {
+    let lineChart = new Chart(ctx, cfg)
   }
   return (
     <div>History component rendering</div>

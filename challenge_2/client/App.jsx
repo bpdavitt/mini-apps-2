@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import History from './components/History.jsx';
-import axios from 'axios'
+import axios from 'axios';
+import moment from 'moment';
 
 class App extends React.Component {
   constructor(props) {
@@ -14,8 +15,9 @@ class App extends React.Component {
   shapeData (data) {
     let shaped = []
     for (let keys in data) {
+      let date = moment(keys, "YYYY-MM-DD")
       let temp = {};
-      temp.t = keys;
+      temp.t = date;
       temp.y = data[keys];
       shaped.push(temp);
     }
