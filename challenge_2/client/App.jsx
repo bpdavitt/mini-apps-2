@@ -1,18 +1,41 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import View from './components/View.jsx'
+import History from './components/History.jsx';
+import axios from 'axios'
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {
+      data: []
+    }
+  }
+
+  shapeData (data) {
+    let shaped = []
+    for (let keys in data) {
+      let temp = {};
+      temp.t = keys;
+      temp.y = data[keys];
+      shaped.push(temp);
+    }
+    console.log(shaped);
+    this.setState({data: shaped})
+  }
+
+  componentDidMount() {
+    axios.get(`https://api.coindesk.com/v1/bpi/historical/close.json`)
+      .then(result => {
+        console.log(result.data.bpi)
+        this.shapeData(result.data.bpi)
+      })
   }
 
   render() {
     return (
       <>
         <div>Crypto App Mounted and Ready for Action</div>
-        <View/>
+        <History data={this.state.data}/>
       </>
     )
   }
