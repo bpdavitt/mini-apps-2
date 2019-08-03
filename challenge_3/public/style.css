@@ -1,0 +1,14 @@
+#select-container {
+  width: 80%;
+  display: inline-flex;
+}
+
+#pin-selector {
+  width: 75%;
+  display: inline-block;
+}
+
+#pin-submit {
+  width: 25%;
+  display: inline-block
+}

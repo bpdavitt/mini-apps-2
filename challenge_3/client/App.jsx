@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
+import Scoreboard from './components/Scoreboard.jsx';
+import Selector from './components/Selector.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -11,6 +13,7 @@ class App extends React.Component {
     return (
       <>
         <div>Lebowski Lanes Open For Business</div>
+        <Selector></Selector>
       </>
     )
   }
