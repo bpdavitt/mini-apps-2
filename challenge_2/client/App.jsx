@@ -51,7 +51,7 @@ class App extends React.Component {
       <>
         <div>Crypto App Mounted and Ready for Action</div>
         <Currency currencyChange={this.currencyChange}/>
-        <History data={this.state.data}/>
+        <History data={this.state.data} currency={this.state.currency}/>
       </>
     )
   }

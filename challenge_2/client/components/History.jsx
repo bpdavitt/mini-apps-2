@@ -32,7 +32,7 @@ const History = (props) => {
         yAxes: [{
           scaleLabel: {
             display: true,
-            labelString: 'Closing price ($)'
+            labelString: `Closing price (${props.currency})`
           }
         }]
       },
