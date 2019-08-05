@@ -20,6 +20,22 @@ class App extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    this.fillFrames();
+  }
+
+  fillFrames() {
+    let holder = [];
+    for (let i = 0; i < 10; i++) {
+      let frame = {
+        frame: i + 1,
+        frameScore: 0
+      }
+      holder.push(frame);
+    }
+    this.setState({frameTracker: holder})
+  }
+
   handleChange(e) {
     if (e.key === 'Enter') {
       this.handleSubmit()
@@ -31,41 +47,45 @@ class App extends React.Component {
 
   handleSubmit(e) {
     console.log('Tried to submit a score')
-    if(this.state.pinsHit > this.state.pinsLeft) {
+    if (this.state.pinsHit > this.state.pinsLeft) {
       alert(`Please enter a valid score; must be <= ${this.state.pinsLeft}`)
-    } else {
+    } else if (document.getElementById('pin-selector').value === '') {
+      alert('Please enter a value');
+    }else {
       this.processRoll()
       // Log result, check to see if new frame, etc => helper fx
     }
+    document.getElementById('pin-selector').value = '';
   }
 
   processRoll() {
     let curFrame = this.state.frame
-    let pinsHit = this.state.pinsHit
+    let pinsHit = Number(this.state.pinsHit)
+    let frameTracker = this.state.frameTracker.slice(0);
+    console.log(frameTracker)
     // Pull frameTracker or create one if does not exist
-    let curFrameTrack = this.state.frameTracker[curFrame - 1] || {
-      frame: curFrame,
-      roll1: pinsHit,
-      frameScore: pinsHit
-    }
+    let curFrameTrack = frameTracker[curFrame - 1]
+    
     // If not first roll update frameTracker with roll2 and cummulative score
-    if (this.state.roll === 2) {
+    if (this.state.roll === 1) {
+      curFrameTrack.roll1 = pinsHit;
+    } else {
       curFrameTrack.roll2 = pinsHit;
-      curFrameTrack.frameScore += pinsHit;
     }
-    let twoAgoTracker = {};
-    let lastTracker = {};
+    curFrameTrack.frameScore += pinsHit;
+    // Pull tracking objects for previous 2 frames
+    let twoAgoTracker = frameTracker[curFrame - 3];
+    let lastTracker = frameTracker[curFrame - 2]
     // Add score to spares/strikes as appropriate
     if (this.state.twoAgo === 'strike') {
       if (this.state.last === 'strike') {
-        twoAgoTracker = this.state.frameTracker[curFrame - 3]
         twoAgoTracker.frameScore += pinsHit;
       } else {
-        lastTracker = this.state.frameTracker[curFrame - 2]
+        lastTracker.frameScore += pinsHit;
       }
     }
     if (this.state.last === 'strike' || this.state.last === 'spare') {
-      lastTracker = this.state.frameTracker[curFrame - 2]
+      lastTracker.frameScore += pinsHit;
     }
     // Have processed previous strike/spare; will move last to twoAgo
     let twoAgo = this.state.last
@@ -80,9 +100,9 @@ class App extends React.Component {
       }
     }
     if (pinsRemain === 0 || this.state.roll === 2) {
-      this.setState({pinsLeft:10, pinsHit: 0, frame: curFrame + 1, roll: 1, twoAgo: twoAgo, last: last})
+      this.setState({ pinsLeft: 10, pinsHit: 0, frame: curFrame + 1, roll: 1, twoAgo: twoAgo, last: last, frameTracker: frameTracker })
     } else {
-      this.setState({pinsLeft:pinsRemain, roll: 2, twoAgo: twoAgo, last: last})
+      this.setState({ pinsLeft: pinsRemain, roll: 2, twoAgo: twoAgo, last: last, frameTracker: frameTracker })
     }
   }
 
@@ -92,6 +112,7 @@ class App extends React.Component {
         <div>Lebowski Lanes Open For Business</div>
         <Selector handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}></Selector>
+        <Scoreboard frames={this.state.frameTracker} />
       </>
     )
   }
