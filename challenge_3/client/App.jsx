@@ -14,7 +14,8 @@ class App extends React.Component {
       twoAgo: null,
       last: null,
       //frameTracker will be an array of frame objects (frame, roll1, roll2, frameScore)
-      frameTracker: []
+      frameTracker: [],
+      completed: false
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,7 +34,7 @@ class App extends React.Component {
       }
       holder.push(frame);
     }
-    this.setState({frameTracker: holder})
+    this.setState({ frameTracker: holder })
   }
 
   handleChange(e) {
@@ -51,9 +52,10 @@ class App extends React.Component {
       alert(`Please enter a valid score; must be <= ${this.state.pinsLeft}`)
     } else if (document.getElementById('pin-selector').value === '') {
       alert('Please enter a value');
-    }else {
+    } else if (this.state.completed === true) {
+      alert('Game is over, refresh page to start new game')
+    } else {
       this.processRoll()
-      // Log result, check to see if new frame, etc => helper fx
     }
     document.getElementById('pin-selector').value = '';
   }
@@ -65,7 +67,7 @@ class App extends React.Component {
     console.log(frameTracker)
     // Pull frameTracker or create one if does not exist
     let curFrameTrack = frameTracker[curFrame - 1]
-    
+
     // If not first roll update frameTracker with roll2 and cummulative score
     if (this.state.roll === 1) {
       curFrameTrack.roll1 = pinsHit;
@@ -92,17 +94,36 @@ class App extends React.Component {
     let last = pinsHit;
     let pinsRemain = this.state.pinsLeft - this.state.pinsHit;
     // If pinsRemain is zero => strike or spare was bowled
-    if (pinsRemain === 0) {
+    if (pinsRemain === 0 && curFrame !== 10) {
       if (this.state.roll === 1) {
         last = 'strike'
       } else {
         last = 'spare'
       }
     }
-    if (pinsRemain === 0 || this.state.roll === 2) {
-      this.setState({ pinsLeft: 10, pinsHit: 0, frame: curFrame + 1, roll: 1, twoAgo: twoAgo, last: last, frameTracker: frameTracker })
+    if (pinsRemain === 0 && curFrame === 10) {
+      curFrameTrack.third = true;
+    }
+    if (curFrame !== 10) {
+      if (pinsRemain === 0 || this.state.roll === 2) {
+        this.setState({ pinsLeft: 10, pinsHit: 0, frame: curFrame + 1, roll: 1, twoAgo: twoAgo, last: last, frameTracker: frameTracker })
+      } else {
+        this.setState({ pinsLeft: pinsRemain, roll: 2, twoAgo: twoAgo, last: last, frameTracker: frameTracker })
+      }
     } else {
-      this.setState({ pinsLeft: pinsRemain, roll: 2, twoAgo: twoAgo, last: last, frameTracker: frameTracker })
+      if(this.state.roll === 3) {
+        this.setState({ completed: true, twoAgo: twoAgo, last: last, frameTracker: frameTracker })
+      } else if (this.state.roll === 2 && curFrameTrack.third !== true) {
+        this.setState({ completed: true, twoAgo: twoAgo, last: last, frameTracker: frameTracker })
+      } else if (this.state.roll === 2 && pinsRemain !== 0){
+        this.setState({ pinsLeft: pinsRemain, roll: 3, twoAgo: twoAgo, last: last, frameTracker: frameTracker })
+      } else if (this.state.roll === 2 && pinsRemain === 0) {
+        this.setState({ pinsLeft: 10, roll: 3, twoAgo: twoAgo, last: last, frameTracker: frameTracker })
+      } else if (this.state.roll === 1 && curFrameTrack.third === true) {
+        this.setState({ pinsLeft: 10, roll: 2, twoAgo: twoAgo, last: last, frameTracker: frameTracker })
+      } else {
+        this.setState({ pinsLeft: pinsRemain, roll: 2, twoAgo: twoAgo, last: last, frameTracker: frameTracker })
+      }
     }
   }
 
