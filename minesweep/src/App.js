@@ -85,7 +85,10 @@ class App extends React.Component {
   }
 
   clickHandler(e) {
-    console.log(e.target.id)
+    let clicked = e.target.id;
+    console.log(clicked)
+    console.log(this.state.spaces[clicked[0]][clicked[1]].value)
+
   }
 
   render() {
