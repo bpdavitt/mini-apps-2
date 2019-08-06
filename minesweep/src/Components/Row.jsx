@@ -2,11 +2,12 @@ import React from 'react';
 import Square from './Square.jsx'
 
 const Row = (props) => {
-  const cols = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  const {row} = props;
+  console.log(row)
   return (
     <tr>
-      {cols.map(col => {
-        return <Square row={props.row} col={col} key={`row:${props.row} col:${col}`}/>
+      {row.map((col, i) => {
+        return <Square square={col} row={props.rowNum} col={i} key={`row:${props.rowNum} col:${i}`} clickHandler={props.clickHandler}/>
       })}
     </tr>
   )
