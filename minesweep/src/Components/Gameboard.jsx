@@ -3,7 +3,7 @@ import Row from './Row.jsx'
 
 const Gameboard = (props) => {
   let { spaces } = props;
-  console.log(spaces)
+  // console.log(spaces)
 
   return (
     <table>

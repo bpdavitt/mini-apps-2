@@ -3,7 +3,7 @@ import Square from './Square.jsx'
 
 const Row = (props) => {
   const {row} = props;
-  console.log(row)
+  // console.log(row)
   return (
     <tr>
       {row.map((col, i) => {

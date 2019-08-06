@@ -39,3 +39,7 @@ td {
   padding: 0px;
   margin: 0px;
 }
+
+.clicked {
+  background-color: lightgreen;
+}
