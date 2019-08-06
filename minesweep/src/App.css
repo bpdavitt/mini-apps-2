@@ -43,3 +43,7 @@ td {
 .clicked {
   background-color: lightgreen;
 }
+
+.mine {
+  background-color: red
+}

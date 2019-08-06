@@ -7,7 +7,7 @@ const Square = (props) => {
     <>
       {square.clicked === false ?
         <td id={props.row + '' + props.col} onClick={(e) => { props.clickHandler(e.target.id) }}></td> :
-        <td id={props.row + '' + props.col} className="clicked" >{square.value}</td>
+        <td id={props.row + '' + props.col} className={square.value === 'mine' ? 'mine' : 'clicked'} >{square.value === 0 ? '' : square.value}</td>
       }
     </>
   )
