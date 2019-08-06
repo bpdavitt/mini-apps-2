@@ -8,8 +8,8 @@ class App extends React.Component {
     this.state = {
       status: 'playing',
       spaces: [],
-      clicked: 0
     }
+    this.totalClicked = 0;
     this.clickHandler = this.clickHandler.bind(this);
   }
 
@@ -83,30 +83,59 @@ class App extends React.Component {
     this.generateBoard();
   }
 
-  clickHandler(e) {
+  clickHandler(id) {
+    console.log(id)
+    if(id.length === 1) {
+      id = '0' + id;
+    }
+    if(Number(id) < 0 || Number(id) > 99) {
+      return;
+    }
     if (this.state.status === 'lost') {
       return alert('You already lost, start a new game')
     }
     if (this.state.status === 'won') {
       return alert('You already won, start a new game')
     }
-    let clicked = e.target.id;
+    let row = Number(id[0]);
+    let col = Number(id[1])
+    let idNum = Number(id)
     // console.log(clicked)
     // console.log(this.state.spaces[clicked[0]][clicked[1]].value)
-    let value = this.state.spaces[clicked[0]][clicked[1]].value;
+    console.log(this.state.spaces[row][col])
+    let value = this.state.spaces[row][col].value;
+    console.log(value);
     let spaces = this.state.spaces;
-    spaces[clicked[0]][clicked[1]].clicked = true;
-    if (value === 'mine') {
-      alert('Game over, you hit a mine');
-      this.setState({status:'lost'})
-    }
-    let totalClicked = this.state.clicked + 1;
-    this.setState({spaces: spaces, clicked: totalClicked});
-    if(totalClicked === 90) {
-      alert('Congrats, you won!');
-      this.setState({status:'won'})
-    }
+    let alreadyClicked = this.state.spaces[row][col].clicked;
+    if(!alreadyClicked) {
+      spaces[row][col].clicked = true;
+      if (value === 0) {
+        this.clickHandler(idNum - 10 + '')
+        this.clickHandler(idNum + 10 + '')
+        if (col !== 0) {
+          this.clickHandler(idNum - 11 + '')
+          this.clickHandler(idNum - 1 + '')
+          this.clickHandler(idNum + 9 + '')
+        }
+        if (col !== 9) {
+          this.clickHandler(idNum - 9 + '')
+          this.clickHandler(idNum + 1 + '')
+          this.clickHandler(idNum + 11 + '')
+        }
+      }
 
+      if (value === 'mine') {
+        alert('Game over, you hit a mine');
+        this.setState({status:'lost'})
+      }
+      this.totalClicked ++;
+      this.setState({spaces: spaces});
+      if(this.totalClicked === 90) {
+        alert('Congrats, you won!');
+        this.setState({status:'won'})
+      }
+    }
+      
   }
 
   render() {
